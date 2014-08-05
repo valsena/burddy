@@ -24,3 +24,10 @@ def seed(count):
         db.session.add(a)
         db.session.commit()
     click.echo('added {} articles to the database'.format(Article.query.count()))
+
+
+@cli.command()
+@click.argument('article_id')
+def get_popularity(article_id):
+    a = Article.query.get(article_id)
+    click.echo('"{}" has a popularity of {}'.format(a.title, a.popularity()))
