@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    {{ include('css/swag.css', type='css') }}
+{% endblock styles %}
+
+
+{% block navbar %}
+<div class="container">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" href="#">{{ config['PROJECT_NAME'] }}</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                </ul>
+
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </div>
+</div>
+{% endblock navbar %}
+
+
+{% block content %}
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              </ol>
+
+
+              <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="http://placehold.it/1200x500&text=Top+Story">
+                    <div class="carousel-caption">
+                        <h3>{{ lipsum(1, min=5, max=20) }}</h3>
+                    </div>
+                    </div>
+                <div class="item">
+                    <img src="http://placehold.it/1200x500&text=Top+Story+2">
+                    <div class="carousel-caption">
+                        <h3>{{ lipsum(1, min=5, max=20) }}</h3>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+              </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <img src="http://placehold.it/300x300&text=Small+Story">
+        </div>
+        <div class="col-md-4">
+            <img src="http://placehold.it/300x300&text=Small+Story">
+        </div>
+        <div class="col-md-4">
+            <img src="http://placehold.it/300x300&text=Small+Story">
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

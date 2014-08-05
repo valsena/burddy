@@ -1,0 +1,27 @@
+{% extends "home.html" %}
+{% from "macros.html" import include %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Write a new Article{% endblock title %}
+
+
+{% block content %}
+<div class="container">
+    {{
+    wtf.quick_form(
+        form,
+        button_map={
+            'submit': 'btn btn-large btn-primary pull-right'
+        })
+    }}
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+    {{ super() }}
+    {{ include('plugins/ckeditor/ckeditor.js') }}
+    <script>
+        CKEDITOR.replace('{{ form.body.id }}')
+    </script>
+{% endblock %}
