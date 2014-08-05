@@ -7,24 +7,26 @@ from random import seed, randint
 
 @click.group()
 def cli():
-    " manage the articles "
+    " manage the users "
     pass
 
 
 @cli.command()
 @click.option('-c', '--count', default=100)
 def seed(count):
-    " make some fake articles "
+    " adds fake users to database "
     import forgery_py as f
+    from sqlalchemy.exc import IntegrityError
 
     seed()
     for i in range(count):
-        a = Article(
-            title=f.lorem_ipsum.title(),
-            subtitle=f.lorem_ipsum.title(),
-            body=f.lorem_ipsum.paragraph(html=True, sentences_quantity=100),
-            author=get_random(User)
+        fake_user = User(
+            email=f.internet.email(),
+            username=f.internet.username()
         )
-        db.session.add(a)
+        try:
+            db.session.add(fake_user)
+        except IntegrityError:
+            db.session.rollback(fake_user)
         db.session.commit()
     click.echo('added {} articles to the database'.format(Article.query.count()))

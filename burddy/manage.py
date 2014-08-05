@@ -8,7 +8,7 @@ cli = FlaskGroup(create_app=create_app)
 
 @cli.command()
 def initdb():
-    """ create the database """
+    " create the database "
     db.drop_all()
     db.create_all()
 
@@ -17,10 +17,12 @@ def initdb():
 @click.option('--count', default=100, type=int)
 @click.pass_context
 def seed(ctx, count):
-    """ make a fake populated website """
+    " make a fake populated website "
+    from burddy.user.commands import seed as seed_users
     from burddy.articles.commands import seed as seed_articles
 
-    ctx.invoke(seed_articles)
+    ctx.invoke(seed_users, count)
+    ctx.invoke(seed_articles, count)
 
     click.echo('finished seeding the database')
 

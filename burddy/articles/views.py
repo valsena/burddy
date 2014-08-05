@@ -19,3 +19,10 @@ def write():
         print(news)
         db.session.add(news)
     return render_template('articles/editor.html', form=form)
+
+
+@articles.route('/popular')
+def most_popular():
+    """ returns the most popular articles """
+    sorted_articles = Article.query.order_by(popularity()).all()
+    return jsonify([x.popularity() for x in sorted_articles])

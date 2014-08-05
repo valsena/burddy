@@ -1,5 +1,6 @@
 *__pycache__*
 *.pyc
-burddy/instance
+instance/
 burddy.egg-info/
 data.sqlite
+flask_ve/
