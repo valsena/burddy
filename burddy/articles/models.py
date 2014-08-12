@@ -1,5 +1,7 @@
 from flask.ext.login import current_user
 from datetime import datetime
+from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy import func
 
 from burddy.extensions import db
 
@@ -16,13 +18,17 @@ class Article(db.Model):
     visited_users = db.Column(db.PickleType())
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    @property
+    @hybrid_method
     def popularity(self, gravity=1.8):
-        " hacker news popularity algorithm "
-        submit_delta = self.timestamp - datetime.utcnow()
-        elapsed_hours = submit_delta.total_seconds() / 60 / 60
-        popularity = (self.views - 1) / (elapsed_hours + 2) ** gravity
-        return popularity
+        seconds = (self.timestamp - datetime.utcnow()).total_seconds()
+        hours = seconds / 3600
+        return (self.views - 1) / (hours + 2) ** gravity
+
+    @popularity.expression
+    def popularity(self, gravity=1.8):
+        seconds = func.extract('epoch', self.timestamp - func.now())
+        hours = seconds / 3600
+        return (self.views - 1) / func.power((hours + 2), gravity)
 
     def __repr__(self):
         return '{}\n{}\n{}\n'.format(self.title, self.subtitle, self.body)

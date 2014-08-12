@@ -1,14 +1,16 @@
-from flask import render_template
+from flask import jsonify
 
+from burddy.utils import template
+from burddy.articles import articles
 from burddy.extensions import db
-from .forms import ArticleForm
-from .models import Article
-from . import articles
+from burddy.articles.forms import ArticleForm
+from burddy.articles.models import Article
 
 
 @articles.route('/write', methods=['GET', 'POST'])
+@template('articles/editor.html')
 def write():
-    """ Render the rich text editor for editing """
+    " give them a rich text editor for the site "
     form = ArticleForm()
     if form.validate_on_submit():
         news = Article(
@@ -16,13 +18,12 @@ def write():
             subtitle=form.subtitle.data,
             body=form.body.data
         )
-        print(news)
         db.session.add(news)
-    return render_template('articles/editor.html', form=form)
+    return {'form': form}
 
 
 @articles.route('/popular')
 def most_popular():
     """ returns the most popular articles """
-    sorted_articles = Article.query.order_by(popularity()).all()
-    return jsonify([x.popularity() for x in sorted_articles])
+    sorted_articles = Article.query.order_by(Article.popularity()).all()
+    return jsonify(sorted_articles)

@@ -10,7 +10,7 @@ __all__ = ['create_app']
 def create_app(info=None):
     " create the application in the proper context "
     app = Flask(__name__, instance_relative_config=True)
-    print(app.instance_path, file=stderr)
+    
     app.config.from_object('burddy.config.defaults')
     app.config.from_pyfile('config.py', True)
 
